@@ -1,0 +1,96 @@
+-- Creating the Database ..............................
+create database store;
+
+use store;
+
+-- Create table countries ...............................
+Create table countries(
+
+code int primary key,
+name varchar(20) not null,
+continent_name varchar(20) unique
+
+);
+
+
+-- Create table users ..............................
+Create table users(
+id int primary key,
+full_name varchar(20),
+email varchar(20) unique ,
+gender char(1)  check (gender='m' or gender='f'),
+date_of_birth varchar(15),
+createed_at datetime,
+country_code int,
+foreign key(country_code) references countries(code)
+
+);
+
+
+-- Create table order ..............................
+Create table orders(
+id int primary key,
+statuss varchar(6) check (statuss='start' or statuss='finish'),
+createed_at datetime,
+user_id int,
+foreign key(user_id) references users(id)
+
+);
+
+-- Create table order_products ..............................
+Create table order_products(
+order_id int,
+product_id int,
+qunitity int default 0 ,
+foreign key(order_id) references orders(id),
+foreign key(product_id) references products(id)
+);
+
+
+
+-- Create table products ..............................
+Create table products(
+id int primary key, 
+name varchar(10) not null,
+price int default 0,
+statuus varchar(10)  check (statuus='valid' or statuus='expired'),
+created_at datetime 
+);
+
+
+show tables;
+
+
+-- Add new row to the countries table ..............................
+insert into countries
+values(1,'Saudi Arabia', 'Asia');
+
+-- Add new row to the users table ..............................
+insert into users
+values(1,'Waad Jambi', 'wj@gmail', 'f' , '1998-04-12','2021-04-03 14:00:45', 1 );
+
+-- Add new row to the order table ..............................
+insert into orders
+values(1,'Start', '2022-04-03 14:00:45', 1);
+
+
+-- Add new row to the products ..............................
+insert into products
+values(1, 'T-shirt', 200, 'valid', '2022-06-03 14:00:45'), (2, 'jggers', 500, 'valid', '2022-07-03 14:10:45');
+
+-- Add new row to the order_products table ..............................
+insert into order_products
+values(1,1,1);
+
+-- Update row from countries table ..............................
+update countries
+set name= 'KSA'
+where code=1;
+
+select * from countries;
+
+-- Delete row from products table ..............................
+select * from products;
+
+delete from products 
+where id=2;
